@@ -26,7 +26,9 @@ server.get('/api/recipes', (req, res) => {
     });
   });
 
-  server.get('/api/instructions/:id', (req, res) => {
+  
+
+  server.get('/api/recipes/:id/instructions', (req, res) => {
     const {id} = req.params;
     db.getInstructions(id)
     .then(recipe => {
@@ -40,6 +42,39 @@ server.get('/api/recipes', (req, res) => {
   server.get('/api/recipes/:id/shoppinglist', (req, res) => {
     const {id} = req.params;
     db.getShoppingList(id)
+    .then(recipe => {
+        res.status(200).json(recipe);
+      })
+      .catch(error => {
+        res.status(500).json(error.message);
+      });
+  })
+
+  server.get('/api/ingredients', (req, res) => {
+    
+    db.getIngredients()
+    .then(ingredient => {
+      res.status(200).json(ingredient);
+    })
+    .catch(error => {
+      res.status(500).json(error);
+    });
+  });
+
+  server.get('/api/ingredients/:id', (req, res) => {
+    const {id} = req.params;
+    db.getIngredients(id)
+    .then(ingredient => {
+      res.status(200).json(ingredient);
+    })
+    .catch(error => {
+      res.status(500).json(error);
+    });
+  });
+
+  server.get('/api/ingredients/:id/recipes', (req, res) => {
+      const {id} = req.params;
+      db.getIngredientList(id)
     .then(recipe => {
         res.status(200).json(recipe);
       })
